@@ -4,6 +4,8 @@ import Tkinter as tk
 import collections
 from Tkinter import IntVar
 
+GetInputList = []
+
 def center(toplevel): # Function for centering all windows upon execution.
     toplevel.update_idletasks()
     w = toplevel.winfo_screenwidth() #Find width resolution
@@ -32,8 +34,6 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		GoodButton = tk.Radiobutton(text="Good", width=10, value=3, variable=intvar) # ,command=lambda: GetInputList.append("GOOD")
 		GoodButton.place(x=376, y=5)
 
-		###
-
 		LoadIDLabel = tk.Label(width=15, text="Load ID:")
 		LoadIDLabel.grid(row=2, column=0, padx=5, pady=5)
 
@@ -59,9 +59,6 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		EnterButton.grid(row=5, column=0, padx=5, pady=5, columnspan=4)
 		self.bind('<Return>', (lambda event: GetStaticInputs()))
 
-		global GetInputList
-		GetInputList = []
-
 		def GetStaticInputs():
 			ConditionList = ["NEW","LIKENEW","VERYGOOD","GOOD"]
 			GetInputList.append(LoadIDEntry.get())
@@ -78,7 +75,7 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 			#ITEMCONDITION = ConditionList[IndexToCondition]
 
 			def GetDynamicInputs():
-				root.destroy()
+				self.destroy()
 				SecondaryApp()
 			GetDynamicInputs()
 
@@ -86,22 +83,28 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 	def __init__(self):
 		tk.Tk.__init__(self)
-		#print GetInputList
+		print GetInputList
 
-		#with open('ListingLogFile.txt', 'w+') as f:
-		#	f.write(str(GetInputList))
-		"""
-		if __name__ == "__main__":
-			SecondaryRoot = SecondaryApp()
-			SecondaryRoot.resizable(0,0)
-			center(SecondaryRoot)
-			SecondaryRoot.title('Auto Amazon Lister')
-		"""
+		SkuLabel = tk.Label(width=15, text="SKU:")
+		SkuLabel.grid(row=2, column=0, padx=5, pady=5)
+
+		UpcLabel = tk.Label(width=15, text="UPC")
+		UpcLabel.grid(row=1, column=0, padx=5, pady=5)
+
+		SkuEntry = tk.Entry(width=55)
+		SkuEntry.grid(row=1, column=1, padx=5, pady=5)
+
+		UpcEntry = tk.Entry(width=55)
+		UpcEntry.grid(row=2, column=1, padx=5, pady=5)
 
 		self.resizable(0,0)
 		center(self)
 		self.title("Input Sku's and Quantity")
-		self.mainloop()
+		self.focus_force()
+
+		#with open('ListingLogFile.txt', 'w+') as f:
+		#	f.write(str(GetInputList))
+		#self.lift()
 
 if __name__ == "__main__": # compile the main class/widgets to be displayed on screen.
 	root = MainApp()
