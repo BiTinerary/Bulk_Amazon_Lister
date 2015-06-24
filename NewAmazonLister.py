@@ -34,16 +34,16 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		GoodButton = tk.Radiobutton(text="Good", width=10, value=3, variable=intvar) # ,command=lambda: GetInputList.append("GOOD")
 		GoodButton.place(x=376, y=5)
 
-		LoadIDLabel = tk.Label(width=15, text="Load ID:")
+		LoadIDLabel = tk.Label(width=15, relief='ridge',text="Load ID:")
 		LoadIDLabel.grid(row=2, column=0, padx=5, pady=5)
 
 		LoadConditionLabel = tk.Label(width=15, text="Load Condition:")
 		LoadConditionLabel.grid(row=1, column=0, padx=5, pady=5)
 
-		BinLocationLabel = tk.Label(width=15, text="Bin Location:")
+		BinLocationLabel = tk.Label(width=15, relief='ridge', text="Bin Location:")
 		BinLocationLabel.grid(row=3, column=0, padx=5, pady=5)
 
-		ListersInitialsLabel = tk.Label(width=15, text="Lister's Initials:")
+		ListersInitialsLabel = tk.Label(width=15, relief='ridge', text="Lister's Initials:")
 		ListersInitialsLabel.grid(row=4, column=0, padx=5, pady=5)
 
 		LoadIDEntry = tk.Entry(width=55)
@@ -56,36 +56,38 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		ListersInitialsEntry = tk.Entry(width=55)
 		ListersInitialsEntry.grid(row=4, column=1, padx=5, pady=5)
 
-		EnterButton = tk.Button(text="Enter", width=60, command=lambda: EveryEntryHasInput())
+		EnterButton = tk.Button(text="Enter", width=64, command=lambda: EveryEntryHasInput())
 		EnterButton.grid(row=5, column=0, padx=5, pady=5, columnspan=4)
 		self.bind('<Return>', (lambda event: EveryEntryHasInput()))
 
-		def EveryEntryHasInput():
-			GetLoadID = LoadIDEntry.get()
-			GetBinLocation = BinLocationEntry.get()
-			GetInitials = ListersInitialsEntry.get()
-			if GetLoadID.isalnum() and GetBinLocation.isalnum() and GetInitials.isalnum():
-				GetStaticInputs()
-
 		def GetStaticInputs():
 			ConditionList = ["NEW","LIKENEW","VERYGOOD","GOOD"]
-			GetInputList.append(LoadIDEntry.get())
-			#LOADID = LoadIDEntry.get()
+			
+			global GetLoadID
+			GetLoadID = str(LoadIDEntry.get())
+			GetInputList.append(GetLoadID)
 
-			GetInputList.append(BinLocationEntry.get())
-			BINLOCATION = BinLocationEntry.get()
+			global GetBinLocation
+			GetBinLocation = str(BinLocationEntry.get())
+			GetInputList.append(GetBinLocation)
 
-			GetInputList.append(ListersInitialsEntry.get())
-			#INITIALS = ListersInitialsEntry.get()
+			global GetListersInitials
+			GetListersInitials = str(ListersInitialsEntry.get())
+			GetInputList.append(GetListersInitials)
 
 			IndexToCondition = intvar.get()
-			GetInputList.append(ConditionList[IndexToCondition])
-			#ITEMCONDITION = ConditionList[IndexToCondition]
+			global GetConditionIndex
+			GetConditionIndex = str(ConditionList[IndexToCondition])
+			GetInputList.append(GetConditionIndex)
 
 			def GetDynamicInputs():
 				self.destroy()
 				SecondaryApp()
 			GetDynamicInputs()
+
+		def EveryEntryHasInput():
+			if LoadIDEntry.get().isalnum() and BinLocationEntry.get().isalnum() and ListersInitialsEntry.get().isalnum():
+				GetStaticInputs()
 
 
 class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
@@ -93,18 +95,28 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		tk.Tk.__init__(self)
 		print GetInputList
 
-		SkuLabel = tk.Label(width=15, text="SKU:")
-		SkuLabel.grid(row=2, column=0, padx=5, pady=5)
+		FullListingSKULabel = tk.Label(width=64, anchor='w', relief='ridge', text="Listing's Full SKU: " + GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetConditionIndex)
+		FullListingSKULabel.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-		UpcLabel = tk.Label(width=15, text="UPC")
-		UpcLabel.grid(row=1, column=0, padx=5, pady=5)
+		SkuLabel = tk.Label(width=15, relief='ridge', text="SKU:")
+		SkuLabel.grid(row=1, column=1, padx=5, pady=5)
+
+		UpcLabel = tk.Label(width=15, relief='ridge', text="UPC")
+		UpcLabel.grid(row=2, column=1, padx=5, pady=5)
+
+		EmptyLabel = tk.Label(width=15)
+		EmptyLabel.grid(row=3, column=1, padx=5, pady=5)
 
 		SkuEntry = tk.Entry(width=55)
-		SkuEntry.grid(row=1, column=1, padx=5, pady=5)
+		SkuEntry.grid(row=1, column=2, padx=5, pady=5)
 		SkuEntry.focus_set()
 
 		UpcEntry = tk.Entry(width=55)
-		UpcEntry.grid(row=2, column=1, padx=5, pady=5)
+		UpcEntry.grid(row=2, column=2, padx=5, pady=5)
+
+		EnterButtonTwo = tk.Button(text="Enter", width=64, command=lambda: 0)
+		EnterButtonTwo.grid(row=4, column=0, padx=5, pady=5, columnspan=4)
+		self.bind('<Return>', (lambda event: 0))
 
 		self.resizable(0,0)
 		center(self)
