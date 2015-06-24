@@ -89,12 +89,13 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 			if LoadIDEntry.get().isalnum() and BinLocationEntry.get().isalnum() and ListersInitialsEntry.get().isalnum():
 				GetStaticInputs()
 
+
 class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 	def __init__(self):
 		tk.Tk.__init__(self)
 		print GetInputList
 
-		FullListingSKULabel = tk.Label(width=64, anchor='n', relief='ridge', text=GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetConditionIndex)
+		FullListingSKULabel = tk.Label(width=64, anchor='w', relief='ridge', text="Listing's Full SKU: " + GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetConditionIndex)
 		FullListingSKULabel.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
 		SkuLabel = tk.Label(width=15, relief='ridge', text="SKU:")
@@ -103,8 +104,8 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		UpcLabel = tk.Label(width=15, relief='ridge', text="UPC")
 		UpcLabel.grid(row=2, column=1, padx=5, pady=5)
 
-		LineCanvas = tk.Canvas(height=1, width=454, bg="gray")
-		LineCanvas.grid(row=3, column=1, columnspan=4, pady=13)
+		EmptyLabel = tk.Label(width=15)
+		EmptyLabel.grid(row=3, column=1, padx=5, pady=5)
 
 		SkuEntry = tk.Entry(width=55)
 		SkuEntry.grid(row=1, column=2, padx=5, pady=5)
@@ -113,27 +114,9 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		UpcEntry = tk.Entry(width=55)
 		UpcEntry.grid(row=2, column=2, padx=5, pady=5)
 
-		EnterButtonTwo = tk.Button(text="Enter", width=64, command=lambda: EveryEntryHasInput())
+		EnterButtonTwo = tk.Button(text="Enter", width=64, command=lambda: 0)
 		EnterButtonTwo.grid(row=4, column=0, padx=5, pady=5, columnspan=4)
-		self.bind('<Return>', (lambda event: EveryEntryHasInput()))
-
-		def GetMoreDynamicInputs():
-			global GetSkuLabel
-			GetSkuLabel = str(SkuLabel.get())
-			GetSkuLabel.append(GetInputList)
-
-			global GetUpcLabel
-			GetUpcLabel = str(UpcLabel.get())
-			GetUpcLabel.append(GetUpcLabel)
-
-			def GetDynamicInputs():
-				self.destroy()
-				SecondaryApp()
-			GetDynamicInputs()
-
-		def EveryEntryHasInput():
-			if SkuLabel.get().isalnum() and UpcLabel.get().isalnum():
-				GetMoreDynamicInputs()
+		self.bind('<Return>', (lambda event: 0))
 
 		self.resizable(0,0)
 		center(self)
