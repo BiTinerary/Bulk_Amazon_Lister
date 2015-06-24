@@ -80,14 +80,15 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 			GetConditionIndex = str(ConditionList[IndexToCondition])
 			GetInputList.append(GetConditionIndex)
 
-			def GetDynamicInputs():
+			def GoToSecondaryGui():
 				self.destroy()
 				SecondaryApp()
-			GetDynamicInputs()
+			GoToSecondaryGui()
 
 		def EveryEntryHasInput():
 			if LoadIDEntry.get().isalnum() and BinLocationEntry.get().isalnum() and ListersInitialsEntry.get().isalnum():
 				GetStaticInputs()
+
 
 class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 	def __init__(self):
@@ -103,9 +104,6 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		UpcLabel = tk.Label(width=15, relief='ridge', text="UPC")
 		UpcLabel.grid(row=2, column=1, padx=5, pady=5)
 
-		LineCanvas = tk.Canvas(height=1, width=454, bg="gray")
-		LineCanvas.grid(row=3, column=1, columnspan=4, pady=13)
-
 		SkuEntry = tk.Entry(width=55)
 		SkuEntry.grid(row=1, column=2, padx=5, pady=5)
 		SkuEntry.focus_set()
@@ -113,27 +111,33 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		UpcEntry = tk.Entry(width=55)
 		UpcEntry.grid(row=2, column=2, padx=5, pady=5)
 
-		EnterButtonTwo = tk.Button(text="Enter", width=64, command=lambda: EveryEntryHasInput())
-		EnterButtonTwo.grid(row=4, column=0, padx=5, pady=5, columnspan=4)
-		self.bind('<Return>', (lambda event: EveryEntryHasInput()))
+		EnterButtonTwo = tk.Button(text="Enter", width=31, command=lambda: EveryEntryHasDynamicInput())
+		EnterButtonTwo.grid(row=4, column=1, columnspan=2, padx=(0,229), pady=5)
+		self.bind('<Return>', (lambda event: EveryEntryHasDynamicInput()))
 
-		def GetMoreDynamicInputs():
-			global GetSkuLabel
-			GetSkuLabel = str(SkuLabel.get())
-			GetSkuLabel.append(GetInputList)
+		ExitButton = tk.Button(text="Exit", width=31, command=lambda: self.destroy())
+		ExitButton.grid(row=4, column=1, columnspan=2, padx=(229,0), pady=5)
 
-			global GetUpcLabel
-			GetUpcLabel = str(UpcLabel.get())
-			GetUpcLabel.append(GetUpcLabel)
+		LineCanvas = tk.Canvas(height=1, width=454, bg="gray")
+		LineCanvas.grid(row=3, column=1, columnspan=4, pady=13)
+		
+		def GetDynamicInputs():
+			global GetSkuEntry
+			GetSkuEntry = str(SkuEntry.get())
+			GetInputList.append(GetSkuEntry)
 
-			def GetDynamicInputs():
+			global GetUpcEntry
+			GetUpcEntry = str(UpcEntry.get())
+			GetInputList.append(GetUpcEntry)
+
+			def RepeatUntilExit():
 				self.destroy()
 				SecondaryApp()
-			GetDynamicInputs()
+			RepeatUntilExit()
 
-		def EveryEntryHasInput():
-			if SkuLabel.get().isalnum() and UpcLabel.get().isalnum():
-				GetMoreDynamicInputs()
+		def EveryEntryHasDynamicInput():
+			if SkuEntry.get().isalnum() and UpcEntry.get().isalnum():
+				GetDynamicInputs()
 
 		self.resizable(0,0)
 		center(self)
