@@ -48,6 +48,7 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 
 		LoadIDEntry = tk.Entry(width=55)
 		LoadIDEntry.grid(row=2, column=1, padx=5, pady=5)
+		LoadIDEntry.focus_set()
 
 		BinLocationEntry = tk.Entry(width=55)
 		BinLocationEntry.grid(row=3, column=1, padx=5, pady=5)
@@ -93,6 +94,7 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 
 		SkuEntry = tk.Entry(width=55)
 		SkuEntry.grid(row=1, column=1, padx=5, pady=5)
+		SkuEntry.focus_set()
 
 		UpcEntry = tk.Entry(width=55)
 		UpcEntry.grid(row=2, column=1, padx=5, pady=5)
