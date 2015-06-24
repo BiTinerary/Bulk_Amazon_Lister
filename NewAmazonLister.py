@@ -56,9 +56,16 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		ListersInitialsEntry = tk.Entry(width=55)
 		ListersInitialsEntry.grid(row=4, column=1, padx=5, pady=5)
 
-		EnterButton = tk.Button(text="Enter", width=60, command=lambda: GetStaticInputs())
+		EnterButton = tk.Button(text="Enter", width=60, command=lambda: EveryEntryHasInput())
 		EnterButton.grid(row=5, column=0, padx=5, pady=5, columnspan=4)
-		self.bind('<Return>', (lambda event: GetStaticInputs()))
+		self.bind('<Return>', (lambda event: EveryEntryHasInput()))
+
+		def EveryEntryHasInput():
+			GetLoadID = LoadIDEntry.get()
+			GetBinLocation = BinLocationEntry.get()
+			GetInitials = ListersInitialsEntry.get()
+			if GetLoadID.isalnum() and GetBinLocation.isalnum() and GetInitials.isalnum():
+				GetStaticInputs()
 
 		def GetStaticInputs():
 			ConditionList = ["NEW","LIKENEW","VERYGOOD","GOOD"]
