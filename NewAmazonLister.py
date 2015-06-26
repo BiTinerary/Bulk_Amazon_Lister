@@ -98,8 +98,13 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 			FullListingSKULabel = tk.Label(width=31, anchor='n', relief='ridge', text=GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials)
 			FullListingSKULabel.grid(row=0, column=1, padx=(0,229), pady=5, columnspan=2)
 
-		ConditionLabel = tk.Label(width=31, anchor='n', relief='ridge', text="Condition: " + GetConditionIndex)
-		ConditionLabel.grid(row=0, column=1, padx=(229,0), pady=5, columnspan=2)
+		try:
+			ConditionLabel = tk.Label(width=31, anchor='n', relief='ridge', text="UPC: " + GetUpcEntry)
+			ConditionLabel.grid(row=0, column=1, padx=(229,0), pady=5, columnspan=2)
+
+		except NameError:
+			ConditionLabel = tk.Label(width=31, anchor='n', relief='ridge', text="Condition: " + GetConditionIndex)
+			ConditionLabel.grid(row=0, column=1, padx=(229,0), pady=5, columnspan=2)
 
 		SkuLabel = tk.Label(width=15, relief='ridge', text="SKU:")
 		SkuLabel.grid(row=1, column=1, padx=5, pady=5)
@@ -114,7 +119,7 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		UpcEntry = tk.Entry(width=55)
 		UpcEntry.grid(row=2, column=2, padx=5, pady=5)
 
-		EnterButtonTwo = tk.Button(text="Enter", width=31, command=lambda: EveryEntryHasDynamicInput())
+		EnterButtonTwo = tk.Button(text="Continue", width=31, command=lambda: EveryEntryHasDynamicInput())
 		EnterButtonTwo.grid(row=4, column=1, columnspan=2, padx=(0,229), pady=5)
 		self.bind('<Return>', (lambda event: EveryEntryHasDynamicInput()))
 
@@ -223,7 +228,7 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 			'<tr>'"\n"
 			'	<td>type</td>'"\n"
 			'	<td>id=offering_condition_note</td>'"\n"
-			'	<td>CONDISHNOTES</td>'"\n"
+			'	<td>CONDITIONNOTES</td>'"\n"
 			'</tr>'"\n"
 			'<tr>'"\n"
 			'	<td>type</td>'"\n"
@@ -258,7 +263,7 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 				LOADCONDITION = Line[3]
 				ITEMIZEDSKU = Line[4]
 				ITEMIZEDUPC = Line[5]
-				FinalHTML += str(SeleniumBodyRepeated.replace('ITEMIZEDUPC', ITEMIZEDUPC).replace('SKUSTRUCTURE', CompleteSKU).replace('LOADCONDITION', LOADCONDITION))
+				FinalHTML += str(SeleniumBodyRepeated.replace('ITEMIZEDUPC', ITEMIZEDUPC).replace('SKUSTRUCTURE', CompleteSKU).replace('LOADCONDITION', LOADCONDITION).replace('LIKENEW', 'Used - Like New').replace('NEW','New').replace('VERY','Used - Very Good').replace('GOOD','Used - Good')).replace('CONDITIONNOTES', '${' + LOADCONDITION + '}')
 
 			FinalHTML += SeleniumFooter
 
