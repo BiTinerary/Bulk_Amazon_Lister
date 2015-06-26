@@ -1,8 +1,6 @@
-import os
-import sys
 import Tkinter as tk
-import collections
 from Tkinter import IntVar
+import numpy as np
 
 GetInputList = []
 
@@ -59,26 +57,24 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 		EnterButton = tk.Button(text="Enter", width=64, command=lambda: EveryEntryHasInput())
 		EnterButton.grid(row=5, column=0, padx=5, pady=5, columnspan=4)
 		self.bind('<Return>', (lambda event: EveryEntryHasInput()))
+		self.bind('<Key-Escape>', (lambda event: self.destroy()))
 
 		def GetStaticInputs():
 			ConditionList = ["NEW","LIKENEW","VERYGOOD","GOOD"]
-			
+
 			global GetLoadID
-			GetLoadID = str(LoadIDEntry.get())
-			GetInputList.append(GetLoadID)
-
 			global GetBinLocation
-			GetBinLocation = str(BinLocationEntry.get())
-			GetInputList.append(GetBinLocation)
-
 			global GetListersInitials
+			global GetConditionIndex
+
+			GetLoadID = str(LoadIDEntry.get())
+
+			GetBinLocation = str(BinLocationEntry.get())
+
 			GetListersInitials = str(ListersInitialsEntry.get())
-			GetInputList.append(GetListersInitials)
 
 			IndexToCondition = intvar.get()
-			global GetConditionIndex
 			GetConditionIndex = str(ConditionList[IndexToCondition])
-			GetInputList.append(GetConditionIndex)
 
 			def GoToSecondaryGui():
 				self.destroy()
@@ -89,14 +85,21 @@ class MainApp(tk.Tk): # Main GUI window with buttons in line.
 			if LoadIDEntry.get().isalnum() and BinLocationEntry.get().isalnum() and ListersInitialsEntry.get().isalnum():
 				GetStaticInputs()
 
-
 class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 	def __init__(self):
 		tk.Tk.__init__(self)
-		print GetInputList
+		#print GetInputList1
 
-		FullListingSKULabel = tk.Label(width=64, anchor='n', relief='ridge', text=GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetConditionIndex)
-		FullListingSKULabel.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+		try:
+			FullListingSKULabel = tk.Label(width=31, anchor='n', relief='ridge', text=GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetSkuEntry)
+			FullListingSKULabel.grid(row=0, column=1, padx=(0,229), pady=5, columnspan=2)
+		
+		except NameError:
+			FullListingSKULabel = tk.Label(width=31, anchor='n', relief='ridge', text=GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials)
+			FullListingSKULabel.grid(row=0, column=1, padx=(0,229), pady=5, columnspan=2)
+
+		ConditionLabel = tk.Label(width=31, anchor='n', relief='ridge', text="Condition: " + GetConditionIndex)
+		ConditionLabel.grid(row=0, column=1, padx=(229,0), pady=5, columnspan=2)
 
 		SkuLabel = tk.Label(width=15, relief='ridge', text="SKU:")
 		SkuLabel.grid(row=1, column=1, padx=5, pady=5)
@@ -115,13 +118,20 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 		EnterButtonTwo.grid(row=4, column=1, columnspan=2, padx=(0,229), pady=5)
 		self.bind('<Return>', (lambda event: EveryEntryHasDynamicInput()))
 
-		ExitButton = tk.Button(text="Exit", width=31, command=lambda: self.destroy())
+		ExitButton = tk.Button(text="Exit and Create Listings", width=31, command=lambda: GenerateListings())
 		ExitButton.grid(row=4, column=1, columnspan=2, padx=(229,0), pady=5)
+		self.bind('<Key-Escape>', (lambda event: GenerateListings()))
 
 		LineCanvas = tk.Canvas(height=1, width=454, bg="gray")
 		LineCanvas.grid(row=3, column=1, columnspan=4, pady=13)
 		
-		def GetDynamicInputs():
+		def CreateFullSKU():
+
+			GetInputList.append(GetLoadID)
+			GetInputList.append(GetBinLocation)
+			GetInputList.append(GetListersInitials)
+			GetInputList.append(GetConditionIndex)
+
 			global GetSkuEntry
 			GetSkuEntry = str(SkuEntry.get())
 			GetInputList.append(GetSkuEntry)
@@ -132,21 +142,133 @@ class SecondaryApp(tk.Tk): # Main GUI window with buttons in line.
 
 			def RepeatUntilExit():
 				self.destroy()
+				global ConvertList2DArray
+				ConvertList2DArray = np.reshape(GetInputList, (-1, 6))
+				print ConvertList2DArray
+				with open('ListingLogFile.txt', 'w+') as LogFile:
+					LogFile.write(str(ConvertList2DArray))
 				SecondaryApp()
 			RepeatUntilExit()
 
 		def EveryEntryHasDynamicInput():
 			if SkuEntry.get().isalnum() and UpcEntry.get().isalnum():
-				GetDynamicInputs()
+				CreateFullSKU()
+
+		def GenerateListings():
+			self.destroy()
+			SeleniumHeader = str('<?xml version="1.0" encoding="UTF-8"?>'"\n"
+			'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'"\n"
+			'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'"\n"
+			'<head profile="http://selenium-ide.openqa.org/profiles/test-case">'"\n"
+			'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'"\n"
+			'<link rel="selenium.base" href="http://www.amazon.com/" />'"\n"
+			'<title>New Test</title>'"\n"
+			'</head>'"\n"
+			'<body>'"\n"
+			'<table cellpadding="1" cellspacing="1" border="1">'"\n"
+			'<thead>'"\n"
+			'<tr><td rowspan="1" colspan="3">New Test</td></tr>'"\n"
+			'</thead><tbody>'"\n"
+			'<tr>'"\n"
+			'	<td>store</td>'"\n"
+			'	<td>New in original packaging. Factory Sealed.</td>'"\n"
+			'	<td>NEW</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>store</td>'"\n"
+			'	<td>Item is in excellent cosmetic condition and shows no signs of use. Includes retail packaging.</td>'"\n"
+			'	<td>LIKENEW</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>store</td>'"\n"
+			'	<td>Item is in excellent working condition. Show minimal signs of use with light scratches. Includes original accessories and some retail packaging.</td>'"\n"
+			'	<td>VERY</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>store</td>'"\n"
+			'	<td>Item is in excellent working order. Shows signs of use with scratches or scuffs. Includes original retail accessories.</td>'"\n"
+			'	<td>GOOD</td>'"\n"
+			'</tr>')
+
+			SeleniumBodyRepeated = str('<tr>'"\n"
+			'	<td>open</td>'"\n"
+			'	<td>https://sellercentral.amazon.com/gp/ezdpc-gui/start.html/ref=ag_addlisting_dnav_xx_</td>'"\n"
+			'	<td></td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>type</td>'"\n"
+			'	<td>id=product-search</td>'"\n"
+			'	<td>ITEMIZEDUPC</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>clickAndWait</td>'"\n"
+			'	<td>css=input.a-button-input</td>'"\n"
+			'	<td></td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>waitForTextPresent</td>'"\n"
+			'	<td>Amazon Product Summary</td>'"\n"
+			'	<td></td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>type</td>'"\n"
+			'	<td>id=offering_sku</td>'"\n"
+			'	<td>SKUSTRUCTURE</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>select</td>'"\n"
+			'	<td>id=offering_condition</td>'"\n"
+			'	<td>LOADCONDITION</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>type</td>'"\n"
+			'	<td>id=offering_condition_note</td>'"\n"
+			'	<td>CONDISHNOTES</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>type</td>'"\n"
+			'	<td>id=Offer_Inventory_Quantity</td>'"\n"
+			'	<td>QTY</td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>waitForTextPresent</td>'"\n"
+			'	<td>Congratulations! Your product is now listed for sale on Amazon.</td>'"\n"
+			'	<td></td>'"\n"
+			'</tr>'"\n"
+			'<tr>'"\n"
+			'	<td>waitForTextPresent</td>'"\n"
+			'	<td>Congratulations! Your product is now listed for sale on Amazon.</td>'"\n"
+			'	<td></td>'"\n"
+			'</tr>')
+
+			SeleniumFooter = str('</tbody></table>'"\n"
+			'</body>'"\n"
+			'</html>')
+
+			ListingInfo = ConvertList2DArray
+			CompleteSKU = str(GetLoadID + "-" + GetBinLocation + "-" + GetListersInitials + "-" + GetSkuEntry)
+
+			FinalHTML = ""
+			FinalHTML += SeleniumHeader
+
+			for Line in ListingInfo:
+				LOADID = Line[0]
+				BINLOC = Line[1]
+				INITIALS = Line[2]
+				LOADCONDITION = Line[3]
+				ITEMIZEDSKU = Line[4]
+				ITEMIZEDUPC = Line[5]
+				FinalHTML += str(SeleniumBodyRepeated.replace('ITEMIZEDUPC', ITEMIZEDUPC).replace('SKUSTRUCTURE', CompleteSKU).replace('LOADCONDITION', LOADCONDITION))
+
+			FinalHTML += SeleniumFooter
+
+			with open('ListMe!.txt', 'w+') as ListingOutputFile:
+				ListingOutputFile.write(FinalHTML)
 
 		self.resizable(0,0)
 		center(self)
 		self.title("Input Sku's and Quantity")
 		self.focus_force()
-
-		#with open('ListingLogFile.txt', 'w+') as f:
-		#	f.write(str(GetInputList))
-		#self.lift()
 
 if __name__ == "__main__": # compile the main class/widgets to be displayed on screen.
 	root = MainApp()
