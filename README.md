@@ -4,7 +4,7 @@ Automates Amazon's Listing Process using UPC's
 
 #Requirements
 
-* Windows OS
+* Windows OS<Br>
 or
 * Python w/ Numpy and Tkinter modules. (`pip install numpy` | `pip install python-tk`)
 
