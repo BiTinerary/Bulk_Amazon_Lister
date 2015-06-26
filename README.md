@@ -7,6 +7,7 @@ Automates Amazon's Listing Process using UPC's
 * Windows OS<Br>
 or
 * Python w/ Numpy and Tkinter modules. (`pip install numpy` | `pip install python-tk`)
+Numpy Standalone Installer: <a href='http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/'>http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/</a>
 
 * Selenium Plugins: <ahref='http://www.seleniumhq.org/projects/ide/'>http://www.seleniumhq.org/projects/ide/</a>
 
