@@ -1,8 +1,8 @@
-# New_Amazon_Munscher
+## New_Amazon_Munscher
 Automates Amazon's Listing Process using UPC's
 <img src="https://raw.githubusercontent.com/BiTinerary/New_Amazon_Munscher/master/Win1.png">
 
-#Requirements
+##Requirements
 
 * Windows OS<Br>
 or
@@ -18,7 +18,11 @@ Numpy Standalone Installer: <a href='http://sourceforge.net/projects/numpy/files
 
 <a href='http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/'>http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/</a>
 
-# Directions
+## License Agreement:
+Attribution-NonCommercial-ShareAlike 4.0 International (For Now)<br>
+<a href='http://creativecommons.org/licenses/by-nc-sa/4.0/'>http://creativecommons.org/licenses/by-nc-sa/4.0/</a>
+
+## Directions
 
 ~ Run the GUI. Enter load, initials, etc... assign unique SKU number and scan item's UPC.<br>
 ~ After all items have been scanned exit the program. It's best to use <kbd>Esc</kbd> or the `Exit` button.<br>
