@@ -1,4 +1,4 @@
-## New_Amazon_Munscher
+## Bulk_Amazon_Lister
 Automates Amazon's Listing Process using UPC's
 <img src="https://raw.githubusercontent.com/BiTinerary/New_Amazon_Munscher/master/Win1.png">
 
