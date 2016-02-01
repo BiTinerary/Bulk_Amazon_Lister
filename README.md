@@ -9,8 +9,6 @@ or
 * Python w/ Numpy and Tkinter modules. (`pip install numpy` | `pip install python-tk`)
 Numpy Standalone Installer: <a href='http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/'>http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/</a>
 
-If you receive an "Unable to find vcvarsall.bat" then install Windows C++ Compiler for Python, available here: <a href='https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266'>https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266></a>
-
 * Selenium Plugins: <ahref='http://www.seleniumhq.org/projects/ide/'>http://www.seleniumhq.org/projects/ide/</a>
 
 * Browser needs to open new windows in the **same** tab. This is due to Selenium not being able to communicate between tabs. This can be accomplished by changing a registry entry in Firefox:<br>
@@ -19,6 +17,8 @@ If you receive an "Unable to find vcvarsall.bat" then install Windows C++ Compil
 ~ Change from default `3` to `1` in order to open new windows/links in the same tab.<br>
 
 <a href='http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/'>http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/</a>
+
+If you receive an "Unable to find vcvarsall.bat" while installing Numpy, Scipy or other `pip` installations. You will need to install Windows C++ Compiler for Python, available here: <a href='https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266'>https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266></a>
 
 ## License Agreement:
 Attribution-NonCommercial-ShareAlike 4.0 International (For Now)<br>
