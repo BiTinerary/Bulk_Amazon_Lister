@@ -18,7 +18,7 @@ Numpy Standalone Installer: <a href='http://sourceforge.net/projects/numpy/files
 
 <a href='http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/'>http://www.ghacks.net/2009/07/03/force-firefox-to-open-links-in-same-tab/</a>
 
-If you receive an "Unable to find vcvarsall.bat" while installing Numpy, Scipy or other `pip` installations. You will need to install Windows C++ Compiler for Python, available here: <a href='https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266'>https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266></a>
+If you receive an "Unable to find vcvarsall.bat" while installing Numpy, Scipy or other `pip` installations. You will need to install Windows C++ Compiler for Python, available here: <a href='https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266'>https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266</a>
 
 ## License Agreement:
 Attribution-NonCommercial-ShareAlike 4.0 International (For Now)<br>
