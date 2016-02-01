@@ -9,6 +9,8 @@ or
 * Python w/ Numpy and Tkinter modules. (`pip install numpy` | `pip install python-tk`)
 Numpy Standalone Installer: <a href='http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/'>http://sourceforge.net/projects/numpy/files/NumPy/1.9.2/</a>
 
+If you receive an "Unable to find vcvarsall.bat" then install Windows C++ Compiler for Python, available here: <a href='https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266'>https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266></a>
+
 * Selenium Plugins: <ahref='http://www.seleniumhq.org/projects/ide/'>http://www.seleniumhq.org/projects/ide/</a>
 
 * Browser needs to open new windows in the **same** tab. This is due to Selenium not being able to communicate between tabs. This can be accomplished by changing a registry entry in Firefox:<br>
